@@ -30,7 +30,7 @@ data.describe()
 # In[350]:
 
 
-answers = {} # создадим словарь для ответов
+answers = {} # создадим словарь для ответов 
 
 #добавим колонку прибыли
 profit = pd.DataFrame(data.revenue - data.budget)
