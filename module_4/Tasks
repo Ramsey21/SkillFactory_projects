@@ -25,3 +25,29 @@ FROM dst_project.flights f
 WHERE f.status = 'Arrived'
   AND f.actual_arrival BETWEEN '2017-04-01' AND '2017-09-01'
   
+4.3.1
+SELECT count(f.flight_id)
+FROM dst_project.flights f
+WHERE f.status = 'Cancelled'
+
+4.3.2
+SELECT *
+FROM dst_project.aircrafts ac
+WHERE ac.model like 'Boeing%'
+  OR ac.model like 'Sukhoi Superjet%'
+  OR ac.model like 'Airbus%'
+ORDER BY ac.model
+
+4.3.3
+SELECT a.timezone
+FROM dst_project.airports a
+GROUP BY a.timezone
+ORDER BY 1
+
+4.3.4
+SELECT f.flight_id,
+       max(f.actual_arrival - f.scheduled_arrival) over(PARTITION BY f.flight_id)res
+FROM dst_project.flights f
+WHERE f.status = 'Arrived'
+ORDER BY res DESC
+LIMIT 1
