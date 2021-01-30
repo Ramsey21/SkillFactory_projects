@@ -89,3 +89,60 @@ SELECT bs.seat_no
 FROM dst_project.tickets t
 JOIN dst_project.boarding_passes bs ON t.ticket_no=bs.ticket_no
 WHERE t.passenger_id = '4313 788533'
+
+5.1.1
+WITH a AS
+  (SELECT *
+   FROM dst_project.airports ap
+   WHERE ap.city = 'Anapa')
+SELECT count(flight_id)
+FROM a
+JOIN dst_project.flights f ON a.airport_code = f.arrival_airport
+WHERE f.actual_arrival BETWEEN '2017-01-01' AND '2017-12-31'
+
+5.1.2
+WITH a AS
+  (SELECT *
+   FROM dst_project.airports ap
+   WHERE ap.city = 'Anapa')
+SELECT count(flight_id)
+FROM a
+JOIN dst_project.flights f ON a.airport_code = f.departure_airport
+WHERE f.actual_arrival BETWEEN '2017-01-01' AND '2017-03-01'
+  OR f.actual_arrival BETWEEN '2017-12-01' AND '2018-01-01'
+
+5.1.3
+WITH a AS
+  (SELECT *
+   FROM dst_project.airports ap
+   WHERE ap.city = 'Anapa')
+SELECT count(flight_id)
+FROM a
+JOIN dst_project.flights f ON a.airport_code = f.departure_airport
+WHERE f.status = 'Cancelled'
+
+5.1.4
+WITH a AS
+  (SELECT *
+   FROM dst_project.airports ap
+   WHERE ap.city = 'Anapa'),
+     b AS
+  (SELECT *
+   FROM dst_project.airports ap
+   WHERE ap.city != 'Moscow')
+SELECT count(f.flight_id)
+FROM a
+JOIN dst_project.flights f ON a.airport_code = f.departure_airport
+JOIN b ON b.airport_code = f.arrival_airport
+
+5.1.5
+WITH a AS
+  (SELECT *
+   FROM dst_project.airports ap
+   WHERE ap.city = 'Anapa')
+SELECT s. aircraft_code,
+       count(s.seat_no)
+FROM a
+JOIN dst_project.flights f ON a.airport_code = f.departure_airport
+JOIN dst_project.seats s ON f.aircraft_code = s.aircraft_code
+GROUP BY s.aircraft_code
