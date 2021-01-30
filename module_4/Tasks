@@ -73,3 +73,19 @@ LIMIT 1
 SELECT avg(f.scheduled_arrival - f.scheduled_departure)
 FROM dst_project.flights f
 
+4.5.1
+SELECT s.fare_conditions,
+       count(s.seat_no)
+FROM dst_project.seats s
+WHERE s.aircraft_code = 'SU9'
+GROUP BY s.fare_conditions
+
+4.5.2
+SELECT min(b.total_amount)
+FROM dst_project.bookings b
+
+4.5.3
+SELECT bs.seat_no
+FROM dst_project.tickets t
+JOIN dst_project.boarding_passes bs ON t.ticket_no=bs.ticket_no
+WHERE t.passenger_id = '4313 788533'
