@@ -51,3 +51,25 @@ FROM dst_project.flights f
 WHERE f.status = 'Arrived'
 ORDER BY res DESC
 LIMIT 1
+
+4.4.1
+SELECT *
+FROM dst_project.flights f
+ORDER BY f.scheduled_departure
+
+4.4.2
+SELECT max(scheduled_arrival - scheduled_departure)
+FROM dst_project.flights f
+
+4.4.3
+SELECT f.departure_airport,
+       f.arrival_airport,
+       max(f.scheduled_arrival - f.scheduled_departure) over(PARTITION BY f.flight_id)res
+FROM dst_project.flights f
+ORDER BY res DESC
+LIMIT 1
+
+4.4.4
+SELECT avg(f.scheduled_arrival - f.scheduled_departure)
+FROM dst_project.flights f
+
