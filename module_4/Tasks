@@ -5,4 +5,23 @@ FROM dst_project.airports a
 GROUP BY a.city
 ORDER BY 2 DESC
 
-4.2
+4.2.1
+SELECT count(DISTINCT f.status)
+FROM dst_project.flights f
+
+4.2.2
+SELECT count(f.flight_id)
+FROM dst_project.flights f
+WHERE f.status = 'Departed'
+
+4.2.3
+SELECT count(s.seat_no)
+FROM dst_project.seats s
+WHERE s.aircraft_code = '773'
+
+4.2.4
+SELECT count(f.flight_id)
+FROM dst_project.flights f
+WHERE f.status = 'Arrived'
+  AND f.actual_arrival BETWEEN '2017-04-01' AND '2017-09-01'
+  
